@@ -1,0 +1,35 @@
+<label>City</label>
+  <input [(ngModel)]="City">
+<button type="button"(click)="onCityFilter()">Search</button>
+<button type="button"(click)="onCityFilterClear()">Clear</button>&nbsp;
+
+<label> Sort by &nbsp;</label>
+<select [(ngModel)]='SortbyParam'>
+  <option value="City">City</option>
+  <option value="Price">Price</option>
+</select>
+<button type="button"(click)="onSortDirection()">
+  <i *ngIf="SortDirection==='asc'" class="fas fa-sort-alpha-down"></i>
+  <i *ngIf="SortDirection==='desc'" class="fas fa-sort-alpha-up"></i>
+</button>
+<!-- Loading -->
+<div *ngIf="isLoading" class="text-center mt-5">
+  <div class="spinner-border text-primary" role="status"></div>
+  <p>Loading properties...</p>
+</div>
+
+<!-- Error -->
+<div *ngIf="hasError" class="alert alert-danger mt-3">
+  Failed to load properties.
+</div>
+
+<!-- Properties -->
+<div *ngIf="!isLoading && !hasError">
+  <div class="row">
+    <div *ngFor="let property of properties|filter: searchCity : 'City'|sort:[SortbyParam,SortDirection]" class="col-sm-4">
+      <div class="shadow-lg p-3 mb-4">
+        <app-property-card [property]="property"></app-property-card>
+      </div>
+    </div>
+  </div>
+</div>
